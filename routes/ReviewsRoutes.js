@@ -4,9 +4,9 @@ const express =require('express')
 //definir objeto de ruteo
 const router = express.Router()
 
-//crear rutas de bootcamps
+//crear rutas de reviews
 
-//listar todos los bootcamps
+//listar todos los reviews
 router.get('/',(req, res)=>{
     res.status(200)
     .json({
@@ -14,7 +14,7 @@ router.get('/',(req, res)=>{
         "data":"Aqui van a salir todos las reviews"
     })
 })
-//Crear nuevo bootcamp
+//Crear nueva review
 router.post('/',(req, res)=>{
     res.status(200)
     .json({
@@ -23,7 +23,7 @@ router.post('/',(req, res)=>{
     })
 })
 
-//Listar bootcamp por ID
+//Listar reviews por ID
 router.get('/:id',(req, res)=>{
     console.log(req.params.id)
     res.status(200)
@@ -33,7 +33,7 @@ router.get('/:id',(req, res)=>{
     })
 })
 
-//Actualizar bootcamp
+//Actualizar reviews
 router.put('/:id',(req, res)=>{
     console.log(req.params.id)
     res.status(200)
@@ -42,7 +42,7 @@ router.put('/:id',(req, res)=>{
         "data":`Aqui se va a modificar la review cuyo id es ${req.params.id}`
     })
 })
-//Eliminar bootcamp
+//Eliminar reviews
 router.delete('/:id',(req, res)=>{
     console.log(req.params.id)
     res.status(200)
