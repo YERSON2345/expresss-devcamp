@@ -11,7 +11,7 @@ module.exports = {
         phone: '573172632842',
         average_rating:'10',
         average_cost:'10000',
-        user_id: 37
+        user_id: 1
       },
       {
         name: 'JAVASCRIPT',
@@ -19,7 +19,8 @@ module.exports = {
         website: 'www.JS.com',
         phone: '573172632842',
         average_rating:'10',
-        average_cost:'10000'
+        average_cost:'10000',
+        user_id: 1
 
       },
       {
@@ -28,7 +29,8 @@ module.exports = {
         website: 'www.C#.com',
         phone: '386423642',
         average_rating:'8',
-        average_cost:'20000'
+        average_cost:'20000',
+        user_id: 1
 
       }
     ], {});
