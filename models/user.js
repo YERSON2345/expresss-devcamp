@@ -15,13 +15,56 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        unique(value) {
+          
+          return User.findOne({where:{name:value}})
+            .then((name) => {
+              if (name) {
+                throw new Error('Error hay mas de un nombre asi');
+              }
+            })
+        },
+        isAlpha: {
+          args:true,
+          msg: "name debe tener solo letras"
+        },
+        notNull: {
+          args:true,
+          msg: "El campo name debe estar presente"
+        },
+        notEmpty: {
+          args:true,
+          msg:"name no debe estar vacio"
+        },
+      }
+    },
+    email:{
+      type:DataTypes.STRING,
+      validate:{
+        isEmail:{
+          args:true,
+          msg:"Email no valido"
+        }
+      },
+    },
+    password:{
+      type:DataTypes.STRING,
+      validate:{
+        len:{
+          args:[5,10],
+          msg:"Password min 5 caracteres, max 10 caracteres"
+        } 
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
     timestamps: false
   });
+
   return User;
 };
