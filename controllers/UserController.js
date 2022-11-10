@@ -35,75 +35,108 @@ exports.getAllUsers = async (req, res)=>{
 }
 
 //Listar usuarios por ID
-exports.getSingleUser = async (req, res)=>{
-
-
+exports.getSingleUser = async (req, res) => {
     try {
-        const usersid = await User.findByPk(req.params.id);
-        //Para confirmar si el usuario existe
-        if (usersid) {
+        const singleUser = await User.findByPk(req.params.id);
+        if (singleUser) {
+            res
+                .status(200)
+                .json({
+                    "success": true,
+                    "data": singleUser
+                })
+        } else {
+            res
+                .status(200)
+                .json({
+                    "success": false,
+                    "errors": "Usuario no existente"
+                })
+        }
+    } catch (error) {
         res
             .status(200)
             .json({
-                "success":true,
-                "data":singleUser
-   })
-   
-  } else {
-        res
-            .status(200)
-            .json({
-                "success":false,
-                "errors":"usuario no existente"
-   })
-  }
-  //
-  //Para por si acaso el servidor no esta encendido
-   } catch (error) {
-       res
-       .status(400)
-       .json({
-           "success": false,
-           "errors": "error del servidor"
-       })
-   }
-   }
+                "success": false,
+                "errors": "error del servidor"
+            })
+    }
+}
    
 //Actualizar usuario
-
-exports.updateUser = async (req, res)=>{
-    const userUpdate = await User.update(req.body,{
-        where: {
-          id: req.params.id
-        }
-      });
-      const usersid = await User.findByPk(req.params.id);
-
-    console.log(req.params.id)
-    res.status(200)
+exports.updateUser = async (req , res) =>{
+     
+    try {
+    const singleUser = await User.findByPk(req.params.id);
+     if(!singleUser){
+        res
+        .status(400)
+        .json({
+            "success": false,
+            "errors":"usuario no existente"
+        })
+     }else{
+        // en caso que actualizo el usuario
+        //console.log(req.params.id)
+        await User.update (req.body,{
+        where:{
+            id: req.params.id
+        }});
+        //selecciono user actualizado
+        const updateUser = await User.findByPk(req.params.id);
+    res
+    .status(200)
     .json({
         "success": true,
-        "data":usersid
+        "data" : updateUser
     })
+}
+ } catch (error) {
+        res
+        .status(400)
+        .json({
+            "sucess":false,
+            "errors":"error de servidor desconocido"
 
+        }) 
+    }
+    
 }
 //Eliminar usuario
-exports.deleteUser = async(req, res)=>{
-        //Traer usuario por id
-        const usersid = await User.findByPk(req.params.id);
-        const usersDelete = await User.destroy({
-            where:{
-                id:req.params.id
+exports.deleteUser = async (req, res)=>{
+    //console.log(req.params.id)
+    try {
+        const SingleUser = await User.findByPk(req.params.id);
+        if (!SingleUser) {
+            res
+            .status(400)
+            .json({
+                "success": false,
+                "errors": "Usuario no existente"
+        })
+        } else {
+            await User.destroy({
+                where:{
+                    id:req.params.id
+                }
             }
-        }
-        );
-    console.log(req.params.id)
-    res.status(200)
-    .json({
-        "success": true,
-        "data":usersid,
-        "mensaje":"Se elimino el usuario correctamente"
-    })
+            );
+        console.log(req.params.id)
+        res.status(200)
+        .json({
+            "success": true,
+            "data":SingleUser,
+            "mensaje":"Se elimino el usuario correctamente"
+        });
+    }
+} catch (error) {
+        res
+        .status(400)
+        .json({
+            "success": false,
+            "errors": "Error de servidor desconocido"
+        })
+    }
 }
 //Crear nuevo usuario
 exports.createUser = async (req, res)=>{

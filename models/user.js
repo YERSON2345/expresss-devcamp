@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
               }
             })
         },
-        isAlpha: {
-          args:true,
-          msg: "name debe tener solo letras"
-        },
         notNull: {
           args:true,
           msg: "El campo name debe estar presente"
